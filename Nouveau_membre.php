@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $wallet = $_COOKIE['wallet_address'] ?? '';
 if (!$wallet) {
     header('Location: Login.php');
@@ -58,7 +58,7 @@ if (!$wallet) {
       <div style="margin-top: 1.5rem;">
         <h2>Historique des annonces</h2>
       <?php if (!in_array(strtolower($wallet), array_map('strtolower', ['0xB410825Ef18466A173d55f28d7D18ADE639E1925', '0x6f3e67E8Baab2ea8451094198B25E9A6a7342574', '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80']))): ?>
-      <p class="info">⚠️ Attention : Tu peux écrire des messages, mais pas les effacer ! 📝 Prends soin de ta rédaction. Pour effacer, contacte HILIE-SARO@outlook.fr ✉️</p>
+      <p class="info">⚠️ Attention : Tu peux écrire des messages, mais pas les effacer ! 📝</p>
       <?php endif; ?>
         <ul id="announcements" class="announcements"></ul>
         <?php if (in_array(strtolower($wallet), array_map('strtolower', ['0xB410825Ef18466A173d55f28d7D18ADE639E1925', '0x6f3e67E8Baab2ea8451094198B25E9A6a7342574', '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80']))): ?>
@@ -71,8 +71,6 @@ if (!$wallet) {
   <script src="jquery-4.0.0.min.js"></script>
   <script>
     const wallet = '<?php echo htmlspecialchars($wallet); ?>';
-    // Les messages sont partagés entre tous les wallets (même stockage),
-    // mais seules certaines adresses peuvent les supprimer.
     const STORAGE_KEY = 'ta_collection_announcements_v1';
     const authorizedWallets = [
       '0xb410825ef18466a173d55f28d7d18ade639e1925',
@@ -84,28 +82,16 @@ if (!$wallet) {
     function loadAnnouncements() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return [];
-      try {
-        const data = JSON.parse(raw);
-        console.log('Loaded announcements:', data);
-        return data;
-      } catch (e) {
-        console.error('Error parsing announcements:', e);
-        return [];
-      }
+      try { return JSON.parse(raw); }
+      catch { return []; }
     }
 
     function saveAnnouncements(items) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-        console.log('Saved announcements:', items);
-      } catch (e) {
-        console.error('Error saving announcements:', e);
-      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     }
 
     function renderAnnouncements() {
       const items = loadAnnouncements();
-      console.log('Rendering announcements:', items);
       const $list = $('#announcements');
       $list.empty();
 
@@ -116,23 +102,26 @@ if (!$wallet) {
       }
 
       items.forEach((item, index) => {
-        let deleteButton = '';
-        if (isAuthorized) {
-          deleteButton = `<button data-index="${index}" style="margin-top:.75rem; padding:.45rem .9rem; border-radius:999px; border:none; background:rgba(255,255,255,.12); color:#fff; cursor:pointer;">Supprimer 🗑️</button>`;
-        }
-        const $li = $(
-          `<li class="announcement">
-             <strong>${item.title}</strong>
-             <div>${item.body}</div>
-             <div style="margin-top:.5rem; font-size:.85rem; color:rgba(255,255,255,.6);">${new Date(item.createdAt).toLocaleString()}</div>
-             ${deleteButton}
-           </li>`
-        );
+        let deleteButton = isAuthorized
+          ? `<button data-index="${index}" style="margin-top:.75rem;">Supprimer 🗑️</button>`
+          : '';
+
+        const $li = $(`
+          <li class="announcement">
+            <strong>${item.title}</strong>
+            <div>${item.body}</div>
+            <div style="margin-top:.5rem; font-size:.85rem; color:rgba(255,255,255,.6);">
+              ${new Date(item.createdAt).toLocaleString()}
+            </div>
+            ${deleteButton}
+          </li>
+        `);
+
         $list.append($li);
       });
 
       $('.announcement').each(function (i, el) {
-        $(el).delay(i * 120).animate({ opacity: 1, top: 0 }, 400);
+        $(el).delay(i * 120).animate({ opacity: 1 }, 400);
       });
     }
 
