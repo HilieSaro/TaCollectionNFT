@@ -45,7 +45,6 @@ if (!$wallet) {
 
 <script src="jquery-4.0.0.min.js"></script>
 <script>
-  // Charge les adresses OpenSea
   function loadOwners() {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -67,7 +66,6 @@ if (!$wallet) {
     });
   }
 
-  // Charge les images du dossier /images
   function loadImages() {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -89,13 +87,15 @@ if (!$wallet) {
     });
   }
 
-  // Construit une carte
+  // VERSION CORRIGÉE : encodeURIComponent(image)
   function buildCard(owner, image) {
     const link = `https://opensea.io/${owner}`;
+    const safeImage = encodeURIComponent(image);
+
     return `
       <article class="card">
         <a href="${link}" target="_blank">
-          <img src="images/${image}" alt="NFT Profil">
+          <img src="images/${safeImage}" alt="NFT Profil">
         </a>
         <div class="meta">
           <h3>${image}</h3>
@@ -105,7 +105,6 @@ if (!$wallet) {
     `;
   }
 
-  // Charge le catalogue complet
   async function loadCatalogue() {
     const $loader = $('#loading');
     const $catalogue = $('#catalogue');
@@ -119,7 +118,6 @@ if (!$wallet) {
         return;
       }
 
-      // Associe chaque image à un profil (rotation automatique)
       const cards = images.map((img, i) => {
         const owner = owners[i % owners.length];
         return buildCard(owner, img);
