@@ -46,7 +46,7 @@ if (!$wallet) {
       transform: scale(1);
     }
 
-    /* Voile sombre – ne bloque plus les clics */
+    /* Voile sombre – ne bloque pas les clics */
     .dark-overlay {
       position: fixed;
       inset: 0;
@@ -55,7 +55,7 @@ if (!$wallet) {
       pointer-events: none;
     }
 
-    /* Fond animé subtil – déjà non bloquant */
+    /* Fond animé subtil */
     .bg-particles {
       position: fixed;
       inset: 0;
@@ -133,12 +133,16 @@ if (!$wallet) {
       align-items: center;
       z-index: 999;
     }
+
     #fullscreen-viewer img {
       max-width: 90%;
       max-height: 90%;
       object-fit: contain;
+      display: block;
+      margin: auto;
       transition: transform .3s ease;
     }
+
     #close-viewer {
       position: absolute;
       top: 20px;
@@ -147,6 +151,7 @@ if (!$wallet) {
       cursor: pointer;
       color: white;
     }
+
     #nav-left, #nav-right {
       position: absolute;
       top: 50%;
@@ -264,18 +269,16 @@ $('#close-viewer').on('click', function () {
 });
 
 $('#nav-left').on('click', function () {
-  if (!bgImages.length) return;
   currentIndex = (currentIndex - 1 + bgImages.length) % bgImages.length;
   openFullscreen(currentIndex);
 });
 
 $('#nav-right').on('click', function () {
-  if (!bgImages.length) return;
   currentIndex = (currentIndex + 1) % bgImages.length;
   openFullscreen(currentIndex);
 });
 
-/* Zoom à la molette dans la galerie */
+/* Zoom à la molette */
 $('#fullscreen-viewer').on('wheel', function(e) {
   e.preventDefault();
   let img = $('#viewer-img');
