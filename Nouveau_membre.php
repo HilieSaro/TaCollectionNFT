@@ -10,152 +10,192 @@ if (!$wallet) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Section réservée - Annonces</title>
+  <title>Espace membre - Annonce du moment</title>
+
   <style>
-    body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b0c10; color: #e6e6e6; }
-    header { padding: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; background: rgba(0,0,0,.55); border-bottom: 1px solid rgba(255,255,255,.1); }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0b0c10;
+      color: #e6e6e6;
+      overflow-x: hidden;
+    }
+
+    /* 🌌 Animation de fond */
+    .bg-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.06), transparent 60%),
+                  radial-gradient(circle at 80% 80%, rgba(255,255,255,.04), transparent 60%);
+      animation: bgMove 18s infinite alternate ease-in-out;
+    }
+    @keyframes bgMove {
+      from { transform: translateY(0px); }
+      to   { transform: translateY(-25px); }
+    }
+
+    header {
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,.55);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
     header a { color: #66d9ff; text-decoration: none; margin-left: 1rem; }
     header a:hover { text-decoration: underline; }
+
     main { max-width: 980px; margin: 2rem auto; padding: 0 1rem; }
-    h1 { margin-top: 0; }
-    .card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
-    .announcements { list-style: none; padding: 0; margin: 0; }
-    .announcement { background: rgba(0,0,0,.3); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; opacity: 0; }
-    .announcement strong { display: block; margin-bottom: .5rem; }
-    form { display: grid; gap: .75rem; }
-    input[type=text], textarea { width: 100%; padding: .75rem; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); background: rgba(0,0,0,.3); color: #fff; }
-    button { padding: .75rem 1.25rem; border: none; border-radius: 999px; background: #1b6ef6; color: white; cursor: pointer; }
-    button:hover { filter: brightness(1.05); }
-    .info { color: rgba(255,255,255,.75); font-size: .95rem; }
+
+    .card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(4px);
+    }
+
+    /* 🎨 Carrousel */
+    #carousel {
+      width: 100%;
+      height: 200px;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    #carousel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    #carousel img.active {
+      opacity: 1;
+    }
+
+    /* 🎈 Emojis flottants */
+    .float-emoji {
+      position: fixed;
+      font-size: 2rem;
+      animation: floatUp 3s linear forwards;
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to   { transform: translateY(-120px) scale(1.4); opacity: 0; }
+    }
+
+    /* 🟦 Zone d’annonce du moment */
+    .event-box {
+      background: rgba(0,0,0,.35);
+      padding: 1.2rem;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      border-left: 4px solid #66d9ff;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
   </style>
 </head>
+
 <body>
-  <header>
-    <div>
-      <strong>Connecté :</strong> <?php echo htmlspecialchars($wallet); ?>
-      <?php if (in_array(strtolower($wallet), array_map('strtolower', ['0xB410825Ef18466A173d55f28d7D18ADE639E1925', '0x6f3e67E8Baab2ea8451094198B25E9A6a7342574', '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80']))): ?>
-      <span style="color: #66d9ff;">🛡️ Tu peux effacer les messages !</span>
-      <?php endif; ?>
+
+<div class="bg-particles"></div>
+
+<header>
+  <div>
+    <strong>Connecté :</strong> <?= htmlspecialchars($wallet); ?>
+  </div>
+  <div>
+    <a href="TaCollectionNFT.php">Accueil 🏠</a>
+    <a href="Catalogue.php">Catalogue 📚</a>
+    <a href="logout.php">Déconnexion 🚪</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- 🎨 Carrousel -->
+  <div id="carousel"></div>
+
+  <section class="card">
+    <h1>Annonce du moment 📢</h1>
+
+    <!-- 🟦 C’EST ICI QUE TU METS TON MESSAGE -->
+    <div class="event-box">
+      🎉 <strong>Événement spécial :</strong>  
+      La prochaine mise à jour de la collection arrive bientôt…  
+      Reste connecté pour découvrir les nouveautés ! 🚀✨
     </div>
-    <div>
-      <a href="TaCollectionNFT.php">Accueil 🏠</a>
-      <a href="Catalogue.php">Catalogue 📚</a>
-      <a href="logout.php">Déconnexion 🚪</a>
-    </div>
-  </header>
+    <!-- 🟦 FIN DE LA ZONE MODIFIABLE -->
 
-  <main>
-    <section class="card">
-      <h1>Zone réservée - Annonces</h1>
-      <p class="info">Cette page te permet d'afficher et conserver des annonces (localement) autour de ta collection. Les annonces sont gardées dans ton navigateur.</p>
+  </section>
 
-      <form id="announceForm">
-        <input type="text" id="title" placeholder="Titre de l'annonce 📝" required maxlength="80" />
-        <textarea id="body" placeholder="Texte de l'annonce ✍️" rows="4" required maxlength="400"></textarea>
-        <button type="submit">Ajouter l'annonce 🚀</button>
-      </form>
+</main>
 
-      <div style="margin-top: 1.5rem;">
-        <h2>Historique des annonces</h2>
-      <?php if (!in_array(strtolower($wallet), array_map('strtolower', ['0xB410825Ef18466A173d55f28d7D18ADE639E1925', '0x6f3e67E8Baab2ea8451094198B25E9A6a7342574', '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80']))): ?>
-      <p class="info">⚠️ Attention : Tu peux écrire des messages, mais pas les effacer ! 📝</p>
-      <?php endif; ?>
-        <ul id="announcements" class="announcements"></ul>
-        <?php if (in_array(strtolower($wallet), array_map('strtolower', ['0xB410825Ef18466A173d55f28d7D18ADE639E1925', '0x6f3e67E8Baab2ea8451094198B25E9A6a7342574', '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80']))): ?>
-        <button id="clearAll" style="background:#ff4961; margin-top:1rem;">Effacer toutes les annonces 🗑️</button>
-        <?php endif; ?>
-      </div>
-    </section>
-  </main>
+<script src="jquery-4.0.0.min.js"></script>
+<script>
+/* ---------------------------------------------------
+   🎨 Carrousel d’images depuis /images
+--------------------------------------------------- */
+function loadCarouselImages() {
+  $.get('images.php', function(images) {
+    if (!images || !images.length) return;
 
-  <script src="jquery-4.0.0.min.js"></script>
-  <script>
-    const wallet = '<?php echo htmlspecialchars($wallet); ?>';
-    const STORAGE_KEY = 'ta_collection_announcements_v1';
-    const authorizedWallets = [
-      '0xb410825ef18466a173d55f28d7d18ade639e1925',
-      '0x6f3e67e8baab2ea8451094198b25e9a6a7342574',
-      '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80'
-    ];
-    const isAuthorized = authorizedWallets.includes(wallet.toLowerCase());
-
-    function loadAnnouncements() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return [];
-      try { return JSON.parse(raw); }
-      catch { return []; }
-    }
-
-    function saveAnnouncements(items) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    }
-
-    function renderAnnouncements() {
-      const items = loadAnnouncements();
-      const $list = $('#announcements');
-      $list.empty();
-
-      if (items.length === 0) {
-        $list.append('<li class="announcement">Aucune annonce pour le moment. Ajoute-en une ! 😊</li>');
-        $('.announcement').css('opacity', 1);
-        return;
-      }
-
-      items.forEach((item, index) => {
-        let deleteButton = isAuthorized
-          ? `<button data-index="${index}" style="margin-top:.75rem;">Supprimer 🗑️</button>`
-          : '';
-
-        const $li = $(`
-          <li class="announcement">
-            <strong>${item.title}</strong>
-            <div>${item.body}</div>
-            <div style="margin-top:.5rem; font-size:.85rem; color:rgba(255,255,255,.6);">
-              ${new Date(item.createdAt).toLocaleString()}
-            </div>
-            ${deleteButton}
-          </li>
-        `);
-
-        $list.append($li);
-      });
-
-      $('.announcement').each(function (i, el) {
-        $(el).delay(i * 120).animate({ opacity: 1 }, 400);
-      });
-    }
-
-    $(function () {
-      renderAnnouncements();
-
-      $('#announceForm').on('submit', function (event) {
-        event.preventDefault();
-        const title = $('#title').val().trim();
-        const body = $('#body').val().trim();
-        if (!title || !body) return;
-
-        const items = loadAnnouncements();
-        items.unshift({ title, body, createdAt: new Date().toISOString() });
-        saveAnnouncements(items);
-        $('#title').val('');
-        $('#body').val('');
-        renderAnnouncements();
-      });
-
-      $('#announcements').on('click', 'button', function () {
-        const index = Number($(this).data('index'));
-        const items = loadAnnouncements();
-        items.splice(index, 1);
-        saveAnnouncements(items);
-        renderAnnouncements();
-      });
-
-      $('#clearAll').on('click', function () {
-        if (!confirm('Supprimer toutes les annonces ? ⚠️')) return;
-        localStorage.removeItem(STORAGE_KEY);
-        renderAnnouncements();
-      });
+    const $carousel = $('#carousel');
+    images.forEach((img, i) => {
+      const safe = encodeURIComponent(img);
+      $carousel.append(`<img src="images/${safe}" class="${i === 0 ? 'active' : ''}">`);
     });
-  </script>
+
+    let index = 0;
+    setInterval(() => {
+      const imgs = $('#carousel img');
+      imgs.removeClass('active');
+      index = (index + 1) % imgs.length;
+      imgs.eq(index).addClass('active');
+    }, 6000);
+  });
+}
+
+/* ---------------------------------------------------
+   🎈 Emojis flottants
+--------------------------------------------------- */
+function spawnEmoji() {
+  const emojis = ["🚀","💎","🎨","🌟","🔥","✨","🧪"];
+  const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+  const el = document.createElement("div");
+  el.className = "float-emoji";
+  el.textContent = emoji;
+  el.style.left = Math.random() * window.innerWidth + "px";
+  el.style.bottom = "0px";
+
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+setInterval(spawnEmoji, 5000);
+
+/* ---------------------------------------------------
+   Initialisation
+--------------------------------------------------- */
+$(function () {
+  loadCarouselImages();
+});
+</script>
+
 </body>
 </html>
