@@ -46,15 +46,16 @@ if (!$wallet) {
       transform: scale(1);
     }
 
-    /* Voile sombre */
+    /* Voile sombre – ne bloque plus les clics */
     .dark-overlay {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,.45);
       z-index: -2;
+      pointer-events: none;
     }
 
-    /* Fond animé subtil */
+    /* Fond animé subtil – déjà non bloquant */
     .bg-particles {
       position: fixed;
       inset: 0;
@@ -239,15 +240,17 @@ function loadBackgroundImages() {
       currentIndex = (currentIndex + 1) % imgs.length;
       imgs.eq(currentIndex).addClass('active');
     }, 8000);
-  });
+  }, 'json');
 }
 
 /* ---------------------------------------------------
    🖼️ Galerie plein écran
 --------------------------------------------------- */
 function openFullscreen(index) {
+  if (!bgImages.length) return;
   const safe = encodeURIComponent(bgImages[index]);
   $('#viewer-img').attr('src', 'images/' + safe);
+  $('#viewer-img').css('transform', 'scale(1)').data('scale', 1);
   $('#fullscreen-viewer').fadeIn(200);
   currentIndex = index;
 }
@@ -261,16 +264,18 @@ $('#close-viewer').on('click', function () {
 });
 
 $('#nav-left').on('click', function () {
+  if (!bgImages.length) return;
   currentIndex = (currentIndex - 1 + bgImages.length) % bgImages.length;
   openFullscreen(currentIndex);
 });
 
 $('#nav-right').on('click', function () {
+  if (!bgImages.length) return;
   currentIndex = (currentIndex + 1) % bgImages.length;
   openFullscreen(currentIndex);
 });
 
-/* Zoom au scroll */
+/* Zoom à la molette dans la galerie */
 $('#fullscreen-viewer').on('wheel', function(e) {
   e.preventDefault();
   let img = $('#viewer-img');
@@ -283,11 +288,18 @@ $('#fullscreen-viewer').on('wheel', function(e) {
   img.data('scale', scale);
 });
 
+/* Fermeture par clic sur fond noir */
+$('#fullscreen-viewer').on('click', function(e) {
+  if (e.target.id === 'fullscreen-viewer') {
+    $('#fullscreen-viewer').fadeOut(200);
+  }
+});
+
 /* ---------------------------------------------------
    🎈 Emojis flottants
 --------------------------------------------------- */
 function spawnEmoji() {
-  const emojis = ["🚀","💎","🎨","🌟","🔥","✨","🧪"];
+  const emojis = ["🚀","💎","🎨","🌟","🔥","✨","🧪","💯","😈","🎶","🦇","🧚‍♀️"];
   const emoji = emojis[Math.floor(Math.random() * emojis.length)];
 
   const el = document.createElement("div");
