@@ -136,6 +136,7 @@ if (!$wallet) {
       max-width: 90%;
       max-height: 90%;
       object-fit: contain;
+      transition: transform .3s ease;
     }
     #close-viewer {
       position: absolute;
@@ -153,6 +154,7 @@ if (!$wallet) {
       cursor: pointer;
       color: white;
       padding: 10px;
+      user-select: none;
     }
     #nav-left { left: 20px; }
     #nav-right { right: 20px; }
@@ -266,6 +268,19 @@ $('#nav-left').on('click', function () {
 $('#nav-right').on('click', function () {
   currentIndex = (currentIndex + 1) % bgImages.length;
   openFullscreen(currentIndex);
+});
+
+/* Zoom au scroll */
+$('#fullscreen-viewer').on('wheel', function(e) {
+  e.preventDefault();
+  let img = $('#viewer-img');
+  let scale = img.data('scale') || 1;
+
+  scale += e.originalEvent.deltaY * -0.001;
+  scale = Math.min(Math.max(1, scale), 3);
+
+  img.css('transform', 'scale(' + scale + ')');
+  img.data('scale', scale);
 });
 
 /* ---------------------------------------------------
