@@ -28,21 +28,25 @@ if (!$wallet) {
       inset: 0;
       z-index: -3;
       overflow: hidden;
+      background: black;
+      cursor: zoom-in;
     }
     #bg-slideshow img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       opacity: 0;
-      transition: opacity 1.8s ease;
+      transition: opacity 1.8s ease, transform 12s ease;
+      transform: scale(1.05);
     }
     #bg-slideshow img.active {
       opacity: 1;
+      transform: scale(1);
     }
 
-    /* Voile sombre pour lisibilité */
+    /* Voile sombre */
     .dark-overlay {
       position: fixed;
       inset: 0;
@@ -50,7 +54,7 @@ if (!$wallet) {
       z-index: -2;
     }
 
-    /* Fond animé léger */
+    /* Fond animé subtil */
     .bg-particles {
       position: fixed;
       inset: 0;
@@ -117,6 +121,41 @@ if (!$wallet) {
       from { transform: translateY(0) scale(1); opacity: 1; }
       to   { transform: translateY(-120px) scale(1.4); opacity: 0; }
     }
+
+    /* 🖼️ Galerie plein écran */
+    #fullscreen-viewer {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    #fullscreen-viewer img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+    #close-viewer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: white;
+    }
+    #nav-left, #nav-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      cursor: pointer;
+      color: white;
+      padding: 10px;
+    }
+    #nav-left { left: 20px; }
+    #nav-right { right: 20px; }
   </style>
 </head>
 
@@ -126,6 +165,14 @@ if (!$wallet) {
 <div id="bg-slideshow"></div>
 <div class="dark-overlay"></div>
 <div class="bg-particles"></div>
+
+<!-- Galerie plein écran -->
+<div id="fullscreen-viewer">
+  <div id="close-viewer">✖</div>
+  <div id="nav-left">❮</div>
+  <img id="viewer-img" src="">
+  <div id="nav-right">❯</div>
+</div>
 
 <header>
   <div>
@@ -143,13 +190,21 @@ if (!$wallet) {
   <section class="card">
     <h1>Annonce du moment 📢</h1>
 
-    <!-- 🟦 Zone modifiable -->
+    <!-- 🟦 Message personnalisé selon le wallet -->
     <div class="event-box">
-      🎉 <strong>Événement spécial :</strong>  
-      Une nouvelle vague NFT arrive bientôt…  
-      Prépare ton wallet ! 🚀✨
+      <?php
+        $vip = [
+          '0xb410825ef18466a173d55f28d7d18ade639e1925',
+          '0x6f3e67e8baab2ea8451094198b25e9a6a7342574',
+          '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80'
+        ];
+        if (in_array(strtolower($wallet), $vip)) {
+            echo "👑 <strong>Bienvenue membre VIP :</strong> Tu fais partie du cercle restreint. Des surprises arrivent bientôt… 🚀✨";
+        } else {
+            echo "🎉 <strong>Bienvenue dans ton espace membre :</strong> Reste connecté pour les prochains événements NFT ! 🌟";
+        }
+      ?>
     </div>
-    <!-- 🟦 Fin zone modifiable -->
 
   </section>
 
@@ -157,12 +212,17 @@ if (!$wallet) {
 
 <script src="jquery-4.0.0.min.js"></script>
 <script>
+let bgImages = [];
+let currentIndex = 0;
+
 /* ---------------------------------------------------
    🌌 Fond dynamique fullscreen
 --------------------------------------------------- */
 function loadBackgroundImages() {
   $.get('images.php', function(images) {
     if (!images || !images.length) return;
+
+    bgImages = images;
 
     const $bg = $('#bg-slideshow');
 
@@ -171,15 +231,42 @@ function loadBackgroundImages() {
       $bg.append(`<img src="images/${safe}" class="${i === 0 ? 'active' : ''}">`);
     });
 
-    let index = 0;
     setInterval(() => {
       const imgs = $('#bg-slideshow img');
       imgs.removeClass('active');
-      index = (index + 1) % imgs.length;
-      imgs.eq(index).addClass('active');
-    }, 6000);
+      currentIndex = (currentIndex + 1) % imgs.length;
+      imgs.eq(currentIndex).addClass('active');
+    }, 8000);
   });
 }
+
+/* ---------------------------------------------------
+   🖼️ Galerie plein écran
+--------------------------------------------------- */
+function openFullscreen(index) {
+  const safe = encodeURIComponent(bgImages[index]);
+  $('#viewer-img').attr('src', 'images/' + safe);
+  $('#fullscreen-viewer').fadeIn(200);
+  currentIndex = index;
+}
+
+$('#bg-slideshow').on('click', function () {
+  openFullscreen(currentIndex);
+});
+
+$('#close-viewer').on('click', function () {
+  $('#fullscreen-viewer').fadeOut(200);
+});
+
+$('#nav-left').on('click', function () {
+  currentIndex = (currentIndex - 1 + bgImages.length) % bgImages.length;
+  openFullscreen(currentIndex);
+});
+
+$('#nav-right').on('click', function () {
+  currentIndex = (currentIndex + 1) % bgImages.length;
+  openFullscreen(currentIndex);
+});
 
 /* ---------------------------------------------------
    🎈 Emojis flottants
