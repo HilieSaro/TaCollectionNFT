@@ -207,9 +207,77 @@ if (!$wallet) {
           '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80'
         ];
         if (in_array(strtolower($wallet), $vip)) {
-            echo "👑 <strong>Bienvenue membre VIP :</strong> Tu fais partie du cercle restreint. Des surprises arrivent bientôt… 🚀✨";
+            echo "<h2>🌞 Les tios.80 — A Story That Leaves a Mark</h2>
+
+<p>Dive into <strong>Les tios.80</strong>, an NFT that captures the raw and emotional life of the <strong>Northern French suburbs</strong> 🇫🇷.<br>
+At the heart of the story stands <strong>Hilie Saro</strong>, a young boy facing violence, delinquency, and addiction ⚡… yet choosing <strong>resilience</strong>, driven by <strong>sports</strong>, freedom, and the will to rise above it all 💪🔥.</p>
+
+<p>🎨 Minted on the <strong>Base ETH network</strong>, this rare NFT (10%) embodies authenticity, art, and hope 💎.<br>
+💰 Price: 0.0001 ETH<br>
+🪶 Every collector becomes a guardian of an urban and deeply human story.</p>
+
+<p>🔗 <strong>Discover on OpenSea:</strong><br>
+<a href='https://opensea.io/collection/hilie-saro' target='_blank'>https://opensea.io/collection/hilie-saro</a></p>
+
+<p>👤 <strong>Creator profile:</strong><br>
+<a href='https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80' target='_blank'>https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80</a></p>
+
+<p>📧 Contact: <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p>
+
+<hr>
+
+<h2>🌞 Les tios.80 — L’histoire qui marque les esprits</h2>
+
+<p>Plonge dans <strong>Les tios.80</strong>, un NFT qui raconte la vie brute et touchante des <strong>banlieues du Nord</strong> 🇫🇷.<br>
+Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violence, délinquance et dérives ⚡… mais qui choisit la <strong>résilience</strong>, porté par le <strong>sport</strong>, la liberté et l’envie de se relever 💪🔥.</p>
+
+<p>🎨 Minté sur <strong>Base ETH</strong>, ce NFT rare (10 %) incarne l’authenticité, l’art et l’espoir 💎.<br>
+💰 Prix : 0.0001 ETH<br>
+🪶 Chaque collectionneur devient gardien d’une histoire urbaine et humaine.</p>
+
+<p>🔗 <strong>Découvrir sur OpenSea :</strong><br>
+<a href='https://opensea.io/collection/hilie-saro' target='_blank'>https://opensea.io/collection/hilie-saro</a></p>
+
+<p>👤 <strong>Profil créateur :</strong><br>
+<a href='https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80' target='_blank'>https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80</a></p>
+
+<p>📧 Contact : <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p> ";
         } else {
-            echo "🎉 <strong>Bienvenue dans ton espace membre :</strong> Reste connecté pour les prochains événements NFT ! 🌟";
+            echo "<h2>🌞 Les tios.80 — A Story That Leaves a Mark</h2>
+
+<p>Dive into <strong>Les tios.80</strong>, an NFT that captures the raw and emotional life of the <strong>Northern French suburbs</strong> 🇫🇷.<br>
+At the heart of the story stands <strong>Hilie Saro</strong>, a young boy facing violence, delinquency, and addiction ⚡… yet choosing <strong>resilience</strong>, driven by <strong>sports</strong>, freedom, and the will to rise above it all 💪🔥.</p>
+
+<p>🎨 Minted on the <strong>Base ETH network</strong>, this rare NFT (10%) embodies authenticity, art, and hope 💎.<br>
+💰 Price: 0.0001 ETH<br>
+🪶 Every collector becomes a guardian of an urban and deeply human story.</p>
+
+<p>🔗 <strong>Discover on OpenSea:</strong><br>
+<a href='https://opensea.io/collection/hilie-saro' target='_blank'>https://opensea.io/collection/hilie-saro</a></p>
+
+<p>👤 <strong>Creator profile:</strong><br>
+<a href='https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80' target='_blank'>https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80</a></p>
+
+<p>📧 Contact: <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p>
+
+<hr>
+
+<h2>🌞 Les tios.80 — L’histoire qui marque les esprits</h2>
+
+<p>Plonge dans <strong>Les tios.80</strong>, un NFT qui raconte la vie brute et touchante des <strong>banlieues du Nord</strong> 🇫🇷.<br>
+Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violence, délinquance et dérives ⚡… mais qui choisit la <strong>résilience</strong>, porté par le <strong>sport</strong>, la liberté et l’envie de se relever 💪🔥.</p>
+
+<p>🎨 Minté sur <strong>Base ETH</strong>, ce NFT rare (10 %) incarne l’authenticité, l’art et l’espoir 💎.<br>
+💰 Prix : 0.0001 ETH<br>
+🪶 Chaque collectionneur devient gardien d’une histoire urbaine et humaine.</p>
+
+<p>🔗 <strong>Découvrir sur OpenSea :</strong><br>
+<a href='https://opensea.io/collection/hilie-saro' target='_blank'>https://opensea.io/collection/hilie-saro</a></p>
+
+<p>👤 <strong>Profil créateur :</strong><br>
+<a href='https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80' target='_blank'>https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80</a></p>
+
+<p>📧 Contact : <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p>";
         }
       ?>
     </div>
