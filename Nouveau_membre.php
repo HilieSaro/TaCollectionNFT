@@ -225,7 +225,7 @@ Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violenc
 
 <p>📧 Contact : <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p>
 <hr>
-<p><strong>🎶Clique sur le fond d'écran pour la galerie</strong>";
+<p><strong>🎶Clique sur le bas du fond d'écran pour la galerie</strong>";
         } else {
             echo "<h2>🌞 Les tios.80 — L’histoire qui marque les esprits</h2>
 
@@ -244,7 +244,7 @@ Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violenc
 
 <p>📧 Contact : <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p>
 <hr>
-<p><strong>🎶Clique sur le fond d'écran pour la galerie </strong>";
+<p><strong>🎶Clique sur le bas du fond d'écran pour la galerie </strong>";
         }
       ?>
     </div>
