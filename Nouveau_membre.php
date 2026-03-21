@@ -203,8 +203,6 @@ if (!$wallet) {
       <?php
         $vip = [
           '0xb410825ef18466a173d55f28d7d18ade639e1925',
-          '0x6f3e67e8baab2ea8451094198b25e9a6a7342574',
-          '0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80'
         ];
         if (in_array(strtolower($wallet), $vip)) {
             echo "<h1>Espace VIP👑</h1>
