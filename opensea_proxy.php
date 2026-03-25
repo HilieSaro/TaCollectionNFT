@@ -10,7 +10,7 @@ error_reporting(0);
  */
 
 // Change this clé API si nécessaire
-$apiKey = 'a4fb4c2e618841aab5d42b8b78d4b2ec';
+$apiKey = 'ma-clé-api';
 
 // Si ni cURL ni OpenSSL ne sont disponibles, on ne peut pas récupérer l'API OpenSea.
 if (!function_exists('curl_init') && !extension_loaded('openssl')) {
