@@ -113,14 +113,14 @@ if (!$wallet) {
     /* 🎈 Emojis flottants */
     .float-emoji {
       position: fixed;
-      font-size: 2rem;
-      animation: floatUp 3s linear forwards;
+      font-size: 4rem;
+      animation: floatUp 4s linear forwards;
       pointer-events: none;
       z-index: 10;
     }
     @keyframes floatUp {
       from { transform: translateY(0) scale(1); opacity: 1; }
-      to   { transform: translateY(-120px) scale(1.4); opacity: 0; }
+      to   { transform: translateY(-360px) scale(1.4); opacity: 0; }
     }
 
     /* 🖼️ Galerie plein écran */
