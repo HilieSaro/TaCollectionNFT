@@ -195,7 +195,7 @@ if (!$wallet) {
 
 <main>
 
-  <section class="card">
+<section class="card">
     <h1>Annonce du moment 📢</h1>
 
     <!-- 🟦 Message personnalisé selon le wallet -->
@@ -217,6 +217,19 @@ Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violenc
 
 <p>🔗 <strong>Découvrir sur OpenSea :</strong><br>
 <a href='https://opensea.io/collection/hilie-saro' target='_blank'>https://opensea.io/collection/hilie-saro</a></p>
+<hr>
+<h2>🎨✨ HILIE — une collection NFT dédiée à l’Art plastique.</h2>  
+Chaque œuvre est une trace, une émotion figée dans la matière numérique.
+
+🖌️ Sculptures plastique, textures numérisées, couleurs éclatantes…  
+Ces œuvres uniques reflètent toute la puissance de l’expression libre et contemporaine.<br>
+
+💎 Prix : 0.015 ETH<br> 
+📍 Disponible sur OpenSea :<br>  
+👉 Collection Hilie<br>
+<a href='https://opensea.io/collection/hilie' target='_blank'>https://opensea.io/collection/hilie</a></p>
+<hr>
+🧠 Chaque NFT est une pièce de mémoire, un fragment d’identité, une invitation à ressentir.
 
 <p>👤 <strong>Profil créateur :</strong><br>
 <a href='https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80' target='_blank'>https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80</a></p>
@@ -236,6 +249,19 @@ Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violenc
 
 <p>🔗 <strong>Découvrir sur OpenSea :</strong><br>
 <a href='https://opensea.io/collection/hilie-saro' target='_blank'>https://opensea.io/collection/hilie-saro</a></p>
+<hr>
+<h2>🎨✨ HILIE — une collection NFT dédiée à l’Art plastique</h2>.  
+Chaque œuvre est une trace, une émotion figée dans la matière numérique.
+
+🖌️ Sculptures plastique, textures numérisées, couleurs éclatantes…  
+Ces œuvres uniques reflètent toute la puissance de l’expression libre et contemporaine.<br>
+
+💎 Prix : 0.015 ETH<br>  
+📍 Disponible sur OpenSea :<br>  
+👉 Collection Hilie<br>
+<a href='https://opensea.io/collection/hilie' target='_blank'>https://opensea.io/collection/hilie</a></p>
+<hr>
+🧠 Chaque NFT est une pièce de mémoire, un fragment d’identité, une invitation à ressentir.
 
 <p>👤 <strong>Profil créateur :</strong><br>
 <a href='https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80' target='_blank'>https://opensea.io/0x72c2ae7b736e9cbc304e8c31a45fbfd82f04ab80</a></p>
@@ -248,7 +274,7 @@ Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violenc
     </div>
 
   </section>
-
+    
 </main>
 
 <script src="jquery-4.0.0.min.js"></script>
