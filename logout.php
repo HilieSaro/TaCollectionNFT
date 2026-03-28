@@ -1,5 +1,16 @@
 <?php
-// Clear the wallet cookie and redirect to the login page.
-setcookie('feAutologin', '', time() - 3600, '/', null, !!Kwf_Config::getValue('server.https'), true);
+// Détruire le cookie du wallet
+setcookie(
+    'feAutologin',
+    '',
+    time() - 3600,
+    '/',
+    '',
+    isset($_SERVER['HTTPS']), // Secure si HTTPS
+    true                      // HttpOnly
+);
+
+// Redirection vers la page de login
 header('Location: Login.php');
 exit();
+
