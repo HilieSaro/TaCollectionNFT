@@ -1,16 +1,12 @@
 <?php
-// Détruire le cookie du wallet
-setcookie(
-    'feAutologin',
-    '',
-    time() - 3600,
-    '/',
-    '',
-    isset($_SERVER['HTTPS']), // Secure si HTTPS
-    true                      // HttpOnly
-);
+setcookie('feAutologin', '', [
+    'expires'  => time() - 3600,
+    'path'     => '/',
+    'domain'   => '',
+    'secure'   => isset($_SERVER['HTTPS']), // Secure si HTTPS
+    'httponly' => true,                     // HttpOnly
+    'samesite' => 'Strict'                  // Protection CSRF maximale
+]);
 
-// Redirection vers la page de login
 header('Location: Login.php');
 exit();
-
