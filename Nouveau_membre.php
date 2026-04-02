@@ -1,15 +1,18 @@
 <?php
-$wallet = $_COOKIE['wallet_address'] ?? '';
+session_start();
+$wallet = $_SESSION['wallet_address'] ?? '';
 if (!$wallet) {
-    header('Location: Login.php');
-    exit();
+  header('Location: Login.php');
+  exit();
 }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
   <title>Espace membre - Annonce du moment</title>
 
   <style>
@@ -31,6 +34,7 @@ if (!$wallet) {
       background: black;
       cursor: zoom-in;
     }
+
     #bg-slideshow img {
       position: absolute;
       inset: 0;
@@ -41,6 +45,7 @@ if (!$wallet) {
       transition: opacity 1.8s ease, transform 12s ease;
       transform: scale(1.05);
     }
+
     #bg-slideshow img.active {
       opacity: 1;
       transform: scale(1);
@@ -50,7 +55,7 @@ if (!$wallet) {
     .dark-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.45);
+      background: rgba(0, 0, 0, .45);
       z-index: -2;
       pointer-events: none;
     }
@@ -61,13 +66,19 @@ if (!$wallet) {
       inset: 0;
       pointer-events: none;
       z-index: -1;
-      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.06), transparent 60%),
-                  radial-gradient(circle at 80% 80%, rgba(255,255,255,.04), transparent 60%);
+      background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, .06), transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, .04), transparent 60%);
       animation: bgMove 18s infinite alternate ease-in-out;
     }
+
     @keyframes bgMove {
-      from { transform: translateY(0px); }
-      to   { transform: translateY(-25px); }
+      from {
+        transform: translateY(0px);
+      }
+
+      to {
+        transform: translateY(-25px);
+      }
     }
 
     header {
@@ -76,19 +87,30 @@ if (!$wallet) {
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      background: rgba(0,0,0,.55);
-      border-bottom: 1px solid rgba(255,255,255,.1);
+      background: rgba(0, 0, 0, .55);
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
       backdrop-filter: blur(6px);
     }
 
-    header a { color: #66d9ff; text-decoration: none; margin-left: 1rem; }
-    header a:hover { text-decoration: underline; }
+    header a {
+      color: #66d9ff;
+      text-decoration: none;
+      margin-left: 1rem;
+    }
 
-    main { max-width: 980px; margin: 2rem auto; padding: 0 1rem; }
+    header a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
 
     .card {
-      background: rgba(0,0,0,.45);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0, 0, 0, .45);
+      border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 16px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
@@ -97,7 +119,7 @@ if (!$wallet) {
 
     /* 🟦 Zone d’annonce du moment */
     .event-box {
-      background: rgba(0,0,0,.35);
+      background: rgba(0, 0, 0, .35);
       padding: 1.2rem;
       border-radius: 14px;
       font-size: 1.1rem;
@@ -106,8 +128,11 @@ if (!$wallet) {
       animation: fadeIn 1s ease forwards;
       opacity: 0;
     }
+
     @keyframes fadeIn {
-      to { opacity: 1; }
+      to {
+        opacity: 1;
+      }
     }
 
     /* 🎈 Emojis flottants */
@@ -118,16 +143,24 @@ if (!$wallet) {
       pointer-events: none;
       z-index: 10;
     }
+
     @keyframes floatUp {
-      from { transform: translateY(0) scale(1); opacity: 1; }
-      to   { transform: translateY(-360px) scale(1.4); opacity: 0; }
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+
+      to {
+        transform: translateY(-360px) scale(1.4);
+        opacity: 0;
+      }
     }
 
     /* 🖼️ Galerie plein écran */
     #fullscreen-viewer {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.95);
+      background: rgba(0, 0, 0, .95);
       display: none;
       justify-content: center;
       align-items: center;
@@ -152,7 +185,8 @@ if (!$wallet) {
       color: white;
     }
 
-    #nav-left, #nav-right {
+    #nav-left,
+    #nav-right {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -162,50 +196,56 @@ if (!$wallet) {
       padding: 10px;
       user-select: none;
     }
-    #nav-left { left: 20px; }
-    #nav-right { right: 20px; }
+
+    #nav-left {
+      left: 20px;
+    }
+
+    #nav-right {
+      right: 20px;
+    }
   </style>
 </head>
 
 <body>
 
-<!-- Fond dynamique -->
-<div id="bg-slideshow"></div>
-<div class="dark-overlay"></div>
-<div class="bg-particles"></div>
+  <!-- Fond dynamique -->
+  <div id="bg-slideshow"></div>
+  <div class="dark-overlay"></div>
+  <div class="bg-particles"></div>
 
-<!-- Galerie plein écran -->
-<div id="fullscreen-viewer">
-  <div id="close-viewer">✖</div>
-  <div id="nav-left">❮</div>
-  <img id="viewer-img" src="">
-  <div id="nav-right">❯</div>
-</div>
-
-<header>
-  <div>
-    <strong>Connecté :</strong> <?= htmlspecialchars($wallet); ?>
+  <!-- Galerie plein écran -->
+  <div id="fullscreen-viewer">
+    <div id="close-viewer">✖</div>
+    <div id="nav-left">❮</div>
+    <img id="viewer-img" src="">
+    <div id="nav-right">❯</div>
   </div>
-  <div>
-    <a href="TaCollectionNFT.php">Accueil 🏠</a>
-    <a href="Catalogue.php">Catalogue 📚</a>
-    <a href="logout.php">Déconnexion 🚪</a>
-  </div>
-</header>
 
-<main>
+  <header>
+    <div>
+      <strong>Connecté :</strong> <?= htmlspecialchars($wallet); ?>
+    </div>
+    <div>
+      <a href="TaCollectionNFT.php">Accueil 🏠</a>
+      <a href="Catalogue.php">Catalogue 📚</a>
+      <a href="logout.php">Déconnexion 🚪</a>
+    </div>
+  </header>
 
-<section class="card">
-    <h1>Annonce du moment 📢</h1>
+  <main>
 
-    <!-- 🟦 Message personnalisé selon le wallet -->
-    <div class="event-box">
-      <?php
+    <section class="card">
+      <h1>Annonce du moment 📢</h1>
+
+      <!-- 🟦 Message personnalisé selon le wallet -->
+      <div class="event-box">
+        <?php
         $vip = [
           '0xb410825ef18466a173d55f28d7d18ade639e1925',
         ];
         if (in_array(strtolower($wallet), $vip)) {
-            echo "<h1>Espace VIP👑</h1>
+          echo "<h1>Espace VIP👑</h1>
             <h2>🌞 Les tios.80 — L’histoire qui marque les esprits</h2>
 
 <p>Plonge dans <strong>Les tios.80</strong>, un NFT qui raconte la vie brute et touchante des <strong>banlieues du Nord</strong> 🇫🇷.<br>
@@ -238,7 +278,7 @@ Ces œuvres uniques reflètent toute la puissance de l’expression libre et con
 <hr>
 <p><strong>🎶Clique sur le bas du fond d'écran pour la galerie</strong>";
         } else {
-            echo "<h2>🌞 Les tios.80 — L’histoire qui marque les esprits</h2>
+          echo "<h2>🌞 Les tios.80 — L’histoire qui marque les esprits</h2>
 
 <p>Plonge dans <strong>Les tios.80</strong>, un NFT qui raconte la vie brute et touchante des <strong>banlieues du Nord</strong> 🇫🇷.<br>
 Au centre du récit : <strong>Hilie Saro</strong>, un jeune qui affronte violence, délinquance et dérives ⚡… mais qui choisit la <strong>résilience</strong>, porté par le <strong>sport</strong>, la liberté et l’envie de se relever 💪🔥.</p>
@@ -270,118 +310,119 @@ Ces œuvres uniques reflètent toute la puissance de l’expression libre et con
 <hr>
 <p><strong>🎶Clique sur le bas du fond d'écran pour la galerie </strong>";
         }
-      ?>
-    </div>
+        ?>
+      </div>
 
-  </section>
-    
-</main>
+    </section>
 
-<script src="jquery-4.0.0.min.js"></script>
-<script>
-let bgImages = [];
-let currentIndex = 0;
+  </main>
 
-/* ---------------------------------------------------
-   🌌 Fond dynamique fullscreen
---------------------------------------------------- */
-function loadBackgroundImages() {
-  $.get('images.php', function(images) {
-    if (!images || !images.length) return;
+  <script src="jquery-4.0.0.min.js"></script>
+  <script>
+    let bgImages = [];
+    let currentIndex = 0;
 
-    bgImages = images;
+    /* ---------------------------------------------------
+       🌌 Fond dynamique fullscreen
+    --------------------------------------------------- */
+    function loadBackgroundImages() {
+      $.get('images.php', function(images) {
+        if (!images || !images.length) return;
 
-    const $bg = $('#bg-slideshow');
+        bgImages = images;
 
-    images.forEach((img, i) => {
-      const safe = encodeURIComponent(img);
-      $bg.append(`<img src="images/${safe}" class="${i === 0 ? 'active' : ''}">`);
+        const $bg = $('#bg-slideshow');
+
+        images.forEach((img, i) => {
+          const safe = encodeURIComponent(img);
+          $bg.append(`<img src="images/${safe}" class="${i === 0 ? 'active' : ''}">`);
+        });
+
+        setInterval(() => {
+          const imgs = $('#bg-slideshow img');
+          imgs.removeClass('active');
+          currentIndex = (currentIndex + 1) % imgs.length;
+          imgs.eq(currentIndex).addClass('active');
+        }, 8000);
+      }, 'json');
+    }
+
+    /* ---------------------------------------------------
+       🖼️ Galerie plein écran
+    --------------------------------------------------- */
+    function openFullscreen(index) {
+      if (!bgImages.length) return;
+      const safe = encodeURIComponent(bgImages[index]);
+      $('#viewer-img').attr('src', 'images/' + safe);
+      $('#viewer-img').css('transform', 'scale(1)').data('scale', 1);
+      $('#fullscreen-viewer').fadeIn(200);
+      currentIndex = index;
+    }
+
+    $('#bg-slideshow').on('click', function() {
+      openFullscreen(currentIndex);
     });
 
-    setInterval(() => {
-      const imgs = $('#bg-slideshow img');
-      imgs.removeClass('active');
-      currentIndex = (currentIndex + 1) % imgs.length;
-      imgs.eq(currentIndex).addClass('active');
-    }, 8000);
-  }, 'json');
-}
+    $('#close-viewer').on('click', function() {
+      $('#fullscreen-viewer').fadeOut(200);
+    });
 
-/* ---------------------------------------------------
-   🖼️ Galerie plein écran
---------------------------------------------------- */
-function openFullscreen(index) {
-  if (!bgImages.length) return;
-  const safe = encodeURIComponent(bgImages[index]);
-  $('#viewer-img').attr('src', 'images/' + safe);
-  $('#viewer-img').css('transform', 'scale(1)').data('scale', 1);
-  $('#fullscreen-viewer').fadeIn(200);
-  currentIndex = index;
-}
+    $('#nav-left').on('click', function() {
+      currentIndex = (currentIndex - 1 + bgImages.length) % bgImages.length;
+      openFullscreen(currentIndex);
+    });
 
-$('#bg-slideshow').on('click', function () {
-  openFullscreen(currentIndex);
-});
+    $('#nav-right').on('click', function() {
+      currentIndex = (currentIndex + 1) % bgImages.length;
+      openFullscreen(currentIndex);
+    });
 
-$('#close-viewer').on('click', function () {
-  $('#fullscreen-viewer').fadeOut(200);
-});
+    /* Zoom à la molette */
+    $('#fullscreen-viewer').on('wheel', function(e) {
+      e.preventDefault();
+      let img = $('#viewer-img');
+      let scale = img.data('scale') || 1;
 
-$('#nav-left').on('click', function () {
-  currentIndex = (currentIndex - 1 + bgImages.length) % bgImages.length;
-  openFullscreen(currentIndex);
-});
+      scale += e.originalEvent.deltaY * -0.001;
+      scale = Math.min(Math.max(1, scale), 3);
 
-$('#nav-right').on('click', function () {
-  currentIndex = (currentIndex + 1) % bgImages.length;
-  openFullscreen(currentIndex);
-});
+      img.css('transform', 'scale(' + scale + ')');
+      img.data('scale', scale);
+    });
 
-/* Zoom à la molette */
-$('#fullscreen-viewer').on('wheel', function(e) {
-  e.preventDefault();
-  let img = $('#viewer-img');
-  let scale = img.data('scale') || 1;
+    /* Fermeture par clic sur fond noir */
+    $('#fullscreen-viewer').on('click', function(e) {
+      if (e.target.id === 'fullscreen-viewer') {
+        $('#fullscreen-viewer').fadeOut(200);
+      }
+    });
 
-  scale += e.originalEvent.deltaY * -0.001;
-  scale = Math.min(Math.max(1, scale), 3);
+    /* ---------------------------------------------------
+       🎈 Emojis flottants
+    --------------------------------------------------- */
+    function spawnEmoji() {
+      const emojis = ["🚀", "💎", "🎨", "🌟", "🔥", "✨", "🧪", "💯", "😈", "🎶", "🦇", "🧚‍♀️"];
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
 
-  img.css('transform', 'scale(' + scale + ')');
-  img.data('scale', scale);
-});
+      const el = document.createElement("div");
+      el.className = "float-emoji";
+      el.textContent = emoji;
+      el.style.left = Math.random() * window.innerWidth + "px";
+      el.style.bottom = "0px";
 
-/* Fermeture par clic sur fond noir */
-$('#fullscreen-viewer').on('click', function(e) {
-  if (e.target.id === 'fullscreen-viewer') {
-    $('#fullscreen-viewer').fadeOut(200);
-  }
-});
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }
+    setInterval(spawnEmoji, 5000);
 
-/* ---------------------------------------------------
-   🎈 Emojis flottants
---------------------------------------------------- */
-function spawnEmoji() {
-  const emojis = ["🚀","💎","🎨","🌟","🔥","✨","🧪","💯","😈","🎶","🦇","🧚‍♀️"];
-  const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-
-  const el = document.createElement("div");
-  el.className = "float-emoji";
-  el.textContent = emoji;
-  el.style.left = Math.random() * window.innerWidth + "px";
-  el.style.bottom = "0px";
-
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3000);
-}
-setInterval(spawnEmoji, 5000);
-
-/* ---------------------------------------------------
-   Initialisation
---------------------------------------------------- */
-$(function () {
-  loadBackgroundImages();
-});
-</script>
+    /* ---------------------------------------------------
+       Initialisation
+    --------------------------------------------------- */
+    $(function() {
+      loadBackgroundImages();
+    });
+  </script>
 
 </body>
+
 </html>
