@@ -1,27 +1,100 @@
 ﻿<?php
-$wallet = $_COOKIE['wallet_address'] ?? '';
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['wallet_address'])) {
+  $_SESSION['wallet_address'] = $_POST['wallet_address'];
+  header('Location: Catalogue.php');
+  exit();
+}
+
+$wallet = $_SESSION['wallet_address'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
   <title>Connexion Wallet</title>
   <style>
-    body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b0c10; color: #e6e6e6; }
-    main { max-width: 640px; margin: 3rem auto; padding: 1.5rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; }
-    h1 { margin-top: 0; font-size: 1.8rem; }
-    p { line-height: 1.6; }
-    button { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.2rem; border: none; border-radius: 999px; background: #1b6ef6; color: white; font-size: 1rem; cursor: pointer; transition: transform .1s ease; }
-    button:hover { transform: translateY(-1px); }
-    button:active { transform: translateY(0); }
-    .meta { margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,.25); border-radius: 12px; }
-    .links a { color: #66d9ff; text-decoration: none; display: inline-block; margin-right: 1rem; }
-    .links a:hover { text-decoration: underline; }
-    .warning { margin-top: 1rem; color: #ffc107; }
-    .error { margin-top: 1rem; color: #ff4c4c; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0b0c10;
+      color: #e6e6e6;
+    }
+
+    main {
+      max-width: 640px;
+      margin: 3rem auto;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 16px;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.2rem;
+      border: none;
+      border-radius: 999px;
+      background: #1b6ef6;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .1s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .meta {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, .25);
+      border-radius: 12px;
+    }
+
+    .links a {
+      color: #66d9ff;
+      text-decoration: none;
+      display: inline-block;
+      margin-right: 1rem;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .warning {
+      margin-top: 1rem;
+      color: #ffc107;
+    }
+
+    .error {
+      margin-top: 1rem;
+      color: #ff4c4c;
+    }
   </style>
 </head>
+
 <body>
   <main>
     <h1>Connexion Wallet</h1>
@@ -46,22 +119,8 @@ $wallet = $_COOKIE['wallet_address'] ?? '';
   </main>
 
   <script>
-    function getCookie(name) {
-      const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-      return match ? decodeURIComponent(match[1]) : '';
-    }
-
-    function setCookie(name, value, days) {
-      const expires = new Date(Date.now() + (days || 1) * 864e5).toUTCString();
-      document.cookie = name + '=' + encodeURIComponent(value) + '; path=/; expires=' + expires;
-    }
-
-    function deleteCookie(name) {
-      document.cookie = name + '=; path=/; max-age=0';
-    }
-
     function updateUI() {
-      const wallet = getCookie('wallet_address');
+      const wallet = <?php echo json_encode($wallet); ?>;
       const statusText = document.getElementById('statusText');
       const connectBtn = document.getElementById('connectBtn');
       const logoutBtn = document.getElementById('logoutBtn');
@@ -73,7 +132,7 @@ $wallet = $_COOKIE['wallet_address'] ?? '';
         logoutBtn.style.display = 'none';
         message.textContent = '';
       } else {
-        statusText.innerHTML = 'Wallet connecté : <strong>' + wallet.slice(0,6) + '…' + wallet.slice(-4) + '</strong>';
+        statusText.innerHTML = 'Wallet connecté : <strong>' + wallet.slice(0, 6) + '…' + wallet.slice(-4) + '</strong>';
         connectBtn.style.display = 'none';
         logoutBtn.style.display = 'inline-flex';
         message.textContent = 'Tu peux maintenant visiter le catalogue ou l’espace membre.';
@@ -88,11 +147,25 @@ $wallet = $_COOKIE['wallet_address'] ?? '';
       }
 
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts'
+        });
         const address = accounts[0];
-        setCookie('wallet_address', address, 7);
-        updateUI();
-        window.location.href = 'Catalogue.php';
+
+        // Envoyer l'adresse au serveur pour définir la session
+        const response = await fetch('Login.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'wallet_address=' + encodeURIComponent(address)
+        });
+
+        if (response.ok) {
+          window.location.href = 'Catalogue.php';
+        } else {
+          message.textContent = 'Erreur lors de la connexion serveur.';
+        }
       } catch (err) {
         message.textContent = 'La connexion a été annulée ou a échoué.';
         console.error(err);
@@ -100,8 +173,7 @@ $wallet = $_COOKIE['wallet_address'] ?? '';
     }
 
     function logout() {
-      deleteCookie('wallet_address');
-      updateUI();
+      window.location.href = 'logout.php';
     }
 
     document.getElementById('connectBtn').addEventListener('click', connectWallet);
@@ -110,4 +182,5 @@ $wallet = $_COOKIE['wallet_address'] ?? '';
     updateUI();
   </script>
 </body>
+
 </html>
