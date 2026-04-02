@@ -1,0 +1,10 @@
+# Ignorer les fichiers de log/résultats temporaires
+out.txt
+*.log
+
+# Ignorer les fichiers d’environnement locaux
+.env
+
+# Si vous ajoutez composer/node, ignorer dossiers dépendances
+vendor/
+node_modules/
