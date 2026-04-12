@@ -12,7 +12,7 @@ if (!$wallet) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://discord.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-src 'self' https://discord.com; connect-src 'self' https://discord.com;">
   <title>Espace membre - Annonce du moment</title>
 
   <style>
@@ -276,7 +276,9 @@ Ces œuvres uniques reflètent toute la puissance de l’expression libre et con
 
 <p>📧 Contact : <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p>
 <hr>
-<p><strong>🎶Clique sur le bas du fond d'écran pour la galerie</strong>";
+<p><strong>🎶Clique sur le bas du fond d'écran pour la galerie</strong></p>
+<hr>
+<iframe src=\"https://discord.com/widget?id=1440631418865586229&theme=dark\" width=\"350\" height=\"200\" allowtransparency=\"true\" frameborder=\"0\" sandbox=\"allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts\"></iframe>";
         } else {
           echo "<h2>🌞 Les tios.80 — L’histoire qui marque les esprits</h2>
 
@@ -308,7 +310,9 @@ Ces œuvres uniques reflètent toute la puissance de l’expression libre et con
 
 <p>📧 Contact : <a href='mailto:HILIE-SARO@outlook.fr'>HILIE-SARO@outlook.fr</a></p>
 <hr>
-<p><strong>🎶Clique sur le bas du fond d'écran pour la galerie </strong>";
+<p><strong>🎶Clique sur le bas du fond d'écran pour la galerie </strong></p>
+<hr>
+<iframe src=\"https://discord.com/widget?id=1440631418865586229&theme=dark\" width=\"350\" height=\"200\" allowtransparency=\"true\" frameborder=\"0\" sandbox=\"allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts\"></iframe>";
         }
         ?>
       </div>
